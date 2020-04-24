@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="openqa-coordinator" />
+    <dubbo:registry id="gw_registry" address="zookeeper://192.168.11.29:2281?backup=192.168.11.32:2281,192.168.11.20:2281" default="true"/>
+    <dubbo:registry id="base_registry" address="zookeeper://192.168.11.29:2285?backup=192.168.11.32:2285,192.168.11.20:2285" />
+    <dubbo:routeServerRegistry id="unit" address="192.168.1.145:12505"></dubbo:routeServerRegistry>
+    <dubbo:registry id="common" address="zookeeper://192.168.11.29:2185?backup=192.168.11.32:2185,192.168.11.20:2185"/>
+
+    <dubbo:consumer filter="default,TraceInvokeFilter,DubboInvokeLogFilter" registry="gw_registry" check="false" />
+
+    <dubbo:reference id="orderMappingProvider" interface="com.dianwoda.open.order.mapping.provider.OrderMappingProvider" registry="gw_registry"/>
+
+
+    <dubbo:reference id="orderQueryProvider" interface="com.dianwoba.order.query.provider.QueryOrderProvider" version="1.0.0" check="false" registry="unit"/>
+    <!--    <dubbo:reference id="orderLifeProviderV2" interface="com.dianwoba.wireless.order.life.provider.OrderLifeProviderV2" version="1.0.0" registry="unit" />-->
+    <!--    <dubbo:reference id="orderLifeProvider" interface="com.dianwoba.wireless.order.life.provider.OrderLifeProvider" check="false" version="1.0.0" registry="unit"/>-->
+    <!--    <dubbo:reference id="orderCancelProvider" interface="com.dianwoba.order.cancel.provider.OrderCancelProvider"  version="1.0.0" registry="unit" check="false"/>-->
+    <!--    <dubbo:reference id="orderSwitchProvider" interface="com.dianwoba.order.cancel.provider.OrderSwitchProvider" check="false" version="1.0.0" registry="unit"/>-->
+
+    <!--    <dubbo:reference id="riderSearchProviderV2" interface="com.dianwoba.rider.stalker.provider.RiderSearchProviderV2" check="false" registry="unit"/>-->
+    <!--    <dubbo:reference id="riderPositionQueryProvider" interface="com.dianwoba.dispatch.lbs.rider.position.provider.RiderPositionQueryProvider" version="1.0.0" check="false" registry="unit"/>-->
+
+    <!--    <dubbo:reference id="degradableMapServiceProvider" interface="com.dianwoba.mapservice.provider.DegradableMapServiceProvider" version="1.0.0" registry="common" check="false"/>-->
+
+    <!--    <dubbo:reference id="userProvider" interface="com.dianwoba.redcliff.user.provider.UserProvider" version="1.0.0" validation="false" registry="unit" check="false"/>-->
+
+    <dubbo:reference id="testDispatchProvider" interface="com.dianwoba.dispatch.weather.monitor.provider.TestDispatchProvider" registry="unit" check="false"/>
+
+    <!--    <dubbo:reference id="deliveryAuditResultNotifyProvider" interface="com.dianwoda.open.drms.transform.provider.DeliveryAuditCallbackProvider" version="1.0.0" registry="unit" />-->
+
+    <!--    <dubbo:reference id="orderDispatchProviderV2" interface="com.dianwoba.order.dispatch.provider.OrderDispatchProviderV2" version="1.0.0" registry="unit" />-->
+</beans>
