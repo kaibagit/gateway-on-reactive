@@ -52,7 +52,7 @@ public class StaticProcessorsHandler extends SimpleChannelInboundHandler<FullHtt
         ctx.fireChannelInactive();
     }
 
-    public List<Processor> getProcessorList() {
-        return processorList;
+    public void addProcessor(Processor processor) {
+        processorList.add(processor);
     }
 }

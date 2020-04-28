@@ -47,12 +47,12 @@ public class Gateway {
         ApiInvokeProcessor apiInvokeProcessor = new ApiInvokeProcessor();
         apiInvokeProcessor.registeTestApiProcessor("test.order.accept",testOrderAcceptProcessor);
         StaticProcessorsHandler staticProcessorsHandler = new StaticProcessorsHandler();
-        staticProcessorsHandler.getProcessorList().add(new ParamsFetchProcessor());
-        staticProcessorsHandler.getProcessorList().add(new ApplicationQaFindProcessor(blockScheduler));
-        staticProcessorsHandler.getProcessorList().add(new ValidateProcessor());
-        staticProcessorsHandler.getProcessorList().add(apiInvokeProcessor);
-        staticProcessorsHandler.getProcessorList().add(new ExceptionHandleProcess());
-        staticProcessorsHandler.getProcessorList().add(new WriteProcessor());
+        staticProcessorsHandler.addProcessor(new ParamsFetchProcessor());
+        staticProcessorsHandler.addProcessor(new ApplicationQaFindProcessor(blockScheduler));
+        staticProcessorsHandler.addProcessor(new ValidateProcessor());
+        staticProcessorsHandler.addProcessor(apiInvokeProcessor);
+        staticProcessorsHandler.addProcessor(new ExceptionHandleProcess());
+        staticProcessorsHandler.addProcessor(new WriteProcessor());
 
         ServerBootstrap b = new ServerBootstrap();
         b.group(acceptGroup, eventLoopGroup).channel(channelClass)
